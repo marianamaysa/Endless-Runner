@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Define um enum para representar a direção em que o personagem foi atingido no eixo Z (frente, trás, nenhuma, meio)
 public enum HITZ { forward, backward, none, mid };
@@ -16,12 +17,16 @@ public class Colisao : MonoBehaviour
     public bool isDead = false; // Variável que indica se o personagem está "morto"
     HITZ hitz = HITZ.none; // Variável que armazena a direção do impacto no eixo Z
     HITY hity = HITY.none; // Variável que armazena a altura do impacto
+    public GameObject gameOver;
+    public GameObject retryButton; // Botão UI que reinicia o jogo
 
     // Função chamada a cada frame do jogo
     void Update()
     {
-        // Verifica se há obstáculos à frente do personagem
-        FrontCheck();
+        if(!isDead)
+        {
+            FrontCheck();
+        }
     }
 
     // Essa função lança um Raycast a partir da cabeça do personagem na direção para frente
@@ -45,7 +50,16 @@ public class Colisao : MonoBehaviour
 
                 // Pausa o jogo
                 Time.timeScale = 0f;
+
+                gameOver.SetActive(true);
             }
         }
+    }
+
+    // Função pública chamada pelo botão na UI
+    public void RestartGame()
+    {
+        Time.timeScale = 1f; // Volta ao tempo normal
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Recarrega a cena atual
     }
 }
