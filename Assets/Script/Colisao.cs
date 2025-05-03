@@ -42,6 +42,9 @@ public class Colisao : MonoBehaviour
                 isDead = true; // Marca o personagem como morto
                 hitz = HITZ.forward; // Registra que o impacto foi frontal
                 hity = HITY.lower;   // Registra que o impacto foi na parte inferior (poderia ser ajustado com base na altura real do impacto)
+
+                // Pausa o jogo
+                Time.timeScale = 0f;
             }
         }
     }
